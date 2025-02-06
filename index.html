@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RESTful API Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f4f4f9;
+    }
+    h1 {
+      color: #333;
+    }
+    .container {
+      margin-top: 20px;
+    }
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    pre {
+      background-color: #eee;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>RESTful API Example</h1>
+  <div class="container">
+    <button onclick="getData()">GET Request</button>
+    <button onclick="postData()">POST Request</button>
+    <button onclick="putData()">PUT Request</button>
+    <button onclick="deleteData()">DELETE Request</button>
+  </div>
+  
+  <h2>Response:</h2>
+  <pre id="response"></pre>
+
+  <script>
+    const apiUrl = 'https://jsonplaceholder.typicode.com/posts';
+
+    // Function to handle GET request
+    async function getData() {
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error with GET request:', error);
+      }
+    }
+
+    // Function to handle POST request
+    async function postData() {
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            title: 'foo',
+            body: 'bar',
+            userId: 1
+          })
+        });
+        const data = await response.json();
+        document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error with POST request:', error);
+      }
+    }
+
+    // Function to handle PUT request
+    async function putData() {
+      try {
+        const response = await fetch(`${apiUrl}/1`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: 1,
+            title: 'foo updated',
+            body: 'bar updated',
+            userId: 1
+          })
+        });
+        const data = await response.json();
+        document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error with PUT request:', error);
+      }
+    }
+
+    // Function to handle DELETE request
+    async function deleteData() {
+      try {
+        const response = await fetch(`${apiUrl}/1`, {
+          method: 'DELETE',
+        });
+        const data = await response.json();
+        document.getElementById('response').textContent = 'Deleted successfully';
+      } catch (error) {
+        console.error('Error with DELETE request:', error);
+      }
+    }
+  </script>
+  
+</body>
+</html>
